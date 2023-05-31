@@ -1,0 +1,20 @@
+FROM nikolaik/python-nodejs:python3.11-nodejs19
+RUN apt-get updateFROM debian:11
+
+RUN apt-get update -y && apt-get upgrade -y
+
+l curl ffmpeg wget git python3-pip sudo -y
+
+RUN curl -sL https://deb.nodesource.com/setup_18.x | bash -
+
+RUN apt-get install -y nodejs
+
+RUN git clone https://github.com/Pranav-Saraswat/Ridhit Carbon
+
+RUN cd Carbon && pip3 install -U -r requirements.txt
+
+CMD cd Carbon && bash start.sh -y && apt-get upgrade -y \
+    && apt-get install -y --no-install-recommends ffmpeg \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+COPY . /app/
